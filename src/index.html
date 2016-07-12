@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <title><%= json.project.title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <%= t.include("partials/_head.html") %>
+  </head>
+  <body>
+
+    <responsive-child>
+      <main class="interactive" ng-app="st3-app">
+        <h2>ST3 tax increase calculator</h2>
+        <p class="chatter">
+          Sound Transit 3 would require sizable tax increases to fund 56 more miles of light rail, plus commuter train and express bus extensions. To find your estimated tax increase:
+        </p>
+
+        <ul>
+          <li> Enter your 2016 assessed property value for the 2017 tax year, as shown on the notice mailed in June by your county assessor. 
+          <li> Enter your household income to find an estimated sales-tax increase. These are derived from federal studies of consumer spending patterns, plugged into a Washington state government tax model, roughly broken out by income bracket.
+          <li> Enter the amounts listed as “RTA tax” that you paid as a fraction of your most recent car-tab bill or bills.  If your green car-tab bill isn’t available, you can find the official amounts by <a href="https://fortress.wa.gov/dol/tabs/FeeCalcVehicle.aspx">entering your license plate number here</a>. 
+        </ul>
+
+        <div class="calculator" ng-controller="CalcController">
+          <div class="inputs">
+            <div class="flex-row header">
+              <div class="input">Enter value</div>
+              <div class="answer">Expected increase</div>
+            </div>
+            <div class="flex-row">
+              <label>Assessed property value</label>
+              <input ng-model="property">
+              <div class="arrow"></div>
+              <div class="answer">
+                ${{propertyTaxIncrease() | number:2}}
+              </div>
+            </div>
+            <div class="flex-row">
+              <label>Household income</label>
+              <input ng-model="income">
+              <div class="answer">
+                ${{salesTaxIncrease() | number:2}}
+              </div>
+            </div>
+            <div class="flex-row">
+              <label>Car-tab tax</label>
+              <input ng-model="rta">
+              <div class="answer">
+                ${{carTabIncrease() | number:2}}
+              </div>
+            </div>
+            <div class="flex-row grand-total">
+              <label>Total tax increase</label>
+              <div class="answer">${{propertyTaxIncrease() + salesTaxIncrease() + carTabIncrease() | number:2}}</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </responsive-child>
+
+    <script src="app.js" async></script>
+    <% if (json.project.production) { %>
+    <%= !json.project.embedded ? t.include("partials/_foot.html") : "" %>
+    <%= t.include("partials/_workHere.html") %>
+    <% } %>
+  </body>
+</html>
