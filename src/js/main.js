@@ -33,7 +33,7 @@ var controller = app.controller("CalcController", function($scope) {
   $scope.salesTaxIncrease = function() {
     var income = typeof $scope.income != "number" ? $scope.income.replace(/,/g, "") * 1 : $scope.income;
     income /= 1000;
-    if (income == 0) return 50;
+    if (income == 0) return 0;
     for (var i = salesTax.length - 1; i >= 0; i--) {
       var bracket = salesTax[i];
       if (income > bracket.income) return bracket.diff;
